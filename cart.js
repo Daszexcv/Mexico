@@ -87,13 +87,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* --- Order form --- */
   if (cartPageForm) {
-    cartPageForm.addEventListener('submit', (e) => {
+    cartPageForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       if (cart.length === 0) return;
+
+      const submitBtn = document.getElementById('cartPageSubmit');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Отправка...';
 
       const total = cart.reduce((s, item) => s + item.price * item.qty, 0);
       const deliveryFee = total >= 2000 ? 0 : 300;
       const grandTotal = total + deliveryFee;
+
+      const formData = new FormData(cartPageForm);
+      const inputs = cartPageForm.querySelectorAll('input, select, textarea');
+
+      const order = {
+        items: cart.map(it => ({ name: it.name, price: it.price, qty: it.qty })),
+        name: inputs[0].value,
+        phone: inputs[1].value,
+        address: inputs[2].value,
+        entrance: inputs[3].value,
+        apartment: inputs[4].value,
+        comment: inputs[5].value,
+        payment: inputs[6].value,
+        total: total,
+        deliveryFee: deliveryFee,
+        grandTotal: grandTotal
+      };
+
+      await sendOrder(order);
 
       modalTitle.textContent = 'Заказ оформлен!';
       modalText.textContent = `Ваш заказ на ${grandTotal} \u20BD принят. Курьер свяжется с вами для подтверждения доставки.`;
@@ -104,6 +127,8 @@ document.addEventListener('DOMContentLoaded', () => {
       cart.length = 0;
       saveCart();
       renderCartPage();
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Оформить заказ';
     });
   }
 
