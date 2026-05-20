@@ -59,29 +59,54 @@ async function sendToEmail(order) {
   const delivery = order.deliveryFee === 0 ? 'Бесплатно' : order.deliveryFee + ' ₽';
 
   try {
-    const resp = await fetch(ORDER_CONFIG.formsubmitUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({
-        _subject: `Новый заказ — ${order.name}, ${order.grandTotal} ₽`,
-        'Имя': order.name,
-        'Телефон': order.phone,
-        'Адрес': order.address,
-        'Подъезд': order.entrance || '—',
-        'Кв./офис': order.apartment || '—',
-        'Заказ': items,
-        'Блюда': order.total + ' ₽',
-        'Доставка': delivery,
-        'К оплате': order.grandTotal + ' ₽',
-        'Оплата': order.payment,
-        'Комментарий': order.comment || '—',
-        _template: 'table'
-      })
-    });
-    return resp.ok;
+    // Use hidden iframe + form submission to bypass CORS/Cloudflare
+    const iframeName = 'emailFrame_' + Date.now();
+    const iframe = document.createElement('iframe');
+    iframe.name = iframeName;
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = 'https://formsubmit.co/' + ORDER_CONFIG.emailTo;
+    form.target = iframeName;
+    form.style.display = 'none';
+
+    const fields = {
+      _subject: `Новый заказ — ${order.name}, ${order.grandTotal} ₽`,
+      _template: 'table',
+      _captcha: 'false',
+      'Имя': order.name,
+      'Телефон': order.phone,
+      'Адрес': order.address,
+      'Подъезд': order.entrance || '—',
+      'Кв./офис': order.apartment || '—',
+      'Заказ': items,
+      'Блюда': order.total + ' ₽',
+      'Доставка': delivery,
+      'К оплате': order.grandTotal + ' ₽',
+      'Оплата': order.payment,
+      'Комментарий': order.comment || '—'
+    };
+
+    for (const [key, val] of Object.entries(fields)) {
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = key;
+      input.value = val;
+      form.appendChild(input);
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+
+    // Cleanup after a delay
+    setTimeout(() => {
+      form.remove();
+      iframe.remove();
+    }, 5000);
+
+    return true;
   } catch (e) {
     console.error('Email error:', e);
     return false;
