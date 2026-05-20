@@ -22,10 +22,11 @@
       <nav class="nav" id="nav">
         <a href="#about" class="nav__link">О нас</a>
         <a href="#menu" class="nav__link">Меню</a>
+        <a href="#delivery" class="nav__link">Доставка</a>
         <a href="#gallery" class="nav__link">Атмосфера</a>
         <a href="#contact" class="nav__link">Контакты</a>
       </nav>
-      <a href="#order" class="btn btn--header">Заказать</a>
+      <a href="#delivery" class="btn btn--header">Заказать доставку</a>
       <button class="burger" id="burger" aria-label="Открыть меню">
         <span></span><span></span><span></span>
       </button>
@@ -37,14 +38,23 @@
     <nav class="mobile-menu__nav">
       <a href="#about" class="mobile-menu__link">О нас</a>
       <a href="#menu" class="mobile-menu__link">Меню</a>
+      <a href="#delivery" class="mobile-menu__link">Доставка</a>
       <a href="#gallery" class="mobile-menu__link">Атмосфера</a>
       <a href="#contact" class="mobile-menu__link">Контакты</a>
-      <a href="#order" class="btn btn--mobile">Заказать</a>
+      <a href="#delivery" class="btn btn--mobile">Заказать доставку</a>
     </nav>
   </div>
 
-  <!-- ======= HERO ======= -->
+  <!-- ======= HERO (Reveal Photo) ======= -->
   <section class="hero" id="hero">
+    <div class="hero__reveal">
+      <div class="hero__reveal-left">
+        <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1200&h=800&fit=crop" alt="Столики ресторана Мехико" />
+      </div>
+      <div class="hero__reveal-right">
+        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&h=800&fit=crop" alt="Раздача ресторана Мехико" />
+      </div>
+    </div>
     <div class="hero__overlay"></div>
     <div class="container hero__content">
       <p class="hero__subtitle">Ресторан мексиканской кухни</p>
@@ -52,7 +62,7 @@
       <p class="hero__desc">Аутентичные вкусы Мексики — от тако аль пастор до чурросов с шоколадом. Каждое блюдо — маленькое путешествие.</p>
       <div class="hero__actions">
         <a href="#menu" class="btn btn--primary btn--lg">Смотреть меню</a>
-        <a href="#order" class="btn btn--outline btn--lg">Заказать столик</a>
+        <a href="#delivery" class="btn btn--outline btn--lg">Заказать доставку</a>
       </div>
     </div>
     <div class="hero__scroll">
@@ -122,6 +132,7 @@
               <span class="menu-card__price">490 &#8381;</span>
             </div>
             <p class="menu-card__desc">Свежее авокадо, лайм, кинза, томаты, халапеньо. Подаётся с кукурузными чипсами.</p>
+            <button class="btn btn--add-cart" data-name="Гуакамоле" data-price="490">+ В корзину</button>
           </div>
         </div>
 
@@ -135,6 +146,7 @@
               <span class="menu-card__price">590 &#8381;</span>
             </div>
             <p class="menu-card__desc">Кукурузные чипсы с расплавленным сыром чеддер, халапеньо, сметаной и сальсой.</p>
+            <button class="btn btn--add-cart" data-name="Начос Супремос" data-price="590">+ В корзину</button>
           </div>
         </div>
 
@@ -148,6 +160,7 @@
               <span class="menu-card__price">520 &#8381;</span>
             </div>
             <p class="menu-card__desc">Тортилья с тянущимся сыром оахака, грибами и эпазоте. Подаётся с гуакамоле.</p>
+            <button class="btn btn--add-cart" data-name="Кесадилья" data-price="520">+ В корзину</button>
           </div>
         </div>
 
@@ -161,6 +174,7 @@
               <span class="menu-card__price">350 &#8381;</span>
             </div>
             <p class="menu-card__desc">Три вида сальсы — верде, роха и пико-де-гальо — с домашними тортилья-чипсами.</p>
+            <button class="btn btn--add-cart" data-name="Сальса трио" data-price="350">+ В корзину</button>
           </div>
         </div>
 
@@ -176,6 +190,7 @@
               <span class="menu-card__price">650 &#8381;</span>
             </div>
             <p class="menu-card__desc">Маринованная свинина с ананасом, кинзой и луком на кукурузной тортилье. 3 шт.</p>
+            <button class="btn btn--add-cart" data-name="Тако аль пастор" data-price="650">+ В корзину</button>
           </div>
         </div>
 
@@ -189,6 +204,7 @@
               <span class="menu-card__price">790 &#8381;</span>
             </div>
             <p class="menu-card__desc">Большая тортилья с говядиной на гриле, рисом, чёрной фасолью, сыром и сальсой.</p>
+            <button class="btn btn--add-cart" data-name="Буррито карне асада" data-price="790">+ В корзину</button>
           </div>
         </div>
 
@@ -202,6 +218,7 @@
               <span class="menu-card__price">720 &#8381;</span>
             </div>
             <p class="menu-card__desc">Тортильи с курицей, залитые зелёным соусом из томатильо, со сметаной и сыром.</p>
+            <button class="btn btn--add-cart" data-name="Энчилады верде" data-price="720">+ В корзину</button>
           </div>
         </div>
 
@@ -215,6 +232,7 @@
               <span class="menu-card__price">850 &#8381;</span>
             </div>
             <p class="menu-card__desc">Шипящая курица с перцем и луком на раскалённой сковороде. С тортильями и соусами.</p>
+            <button class="btn btn--add-cart" data-name="Фахитас с курицей" data-price="850">+ В корзину</button>
           </div>
         </div>
 
@@ -228,6 +246,7 @@
               <span class="menu-card__price">680 &#8381;</span>
             </div>
             <p class="menu-card__desc">Густое рагу из говядины с фасолью, томатами и перцем чили. Подаётся с рисом.</p>
+            <button class="btn btn--add-cart" data-name="Чили кон карне" data-price="680">+ В корзину</button>
           </div>
         </div>
 
@@ -242,6 +261,7 @@
               <span class="menu-card__price">550 &#8381;</span>
             </div>
             <p class="menu-card__desc">Кукурузное тесто с начинкой из свинины в листьях кукурузы. Традиционный рецепт. 2 шт.</p>
+            <button class="btn btn--add-cart" data-name="Тамале" data-price="550">+ В корзину</button>
           </div>
         </div>
 
@@ -257,6 +277,7 @@
               <span class="menu-card__price">420 &#8381;</span>
             </div>
             <p class="menu-card__desc">Хрустящие палочки из заварного теста с корицей и сахаром. С горячим шоколадным соусом.</p>
+            <button class="btn btn--add-cart" data-name="Чуррос" data-price="420">+ В корзину</button>
           </div>
         </div>
 
@@ -270,6 +291,7 @@
               <span class="menu-card__price">390 &#8381;</span>
             </div>
             <p class="menu-card__desc">Нежнейший карамельный крем-пудинг. Классика мексиканских десертов.</p>
+            <button class="btn btn--add-cart" data-name="Флан" data-price="390">+ В корзину</button>
           </div>
         </div>
 
@@ -283,6 +305,7 @@
               <span class="menu-card__price">350 &#8381;</span>
             </div>
             <p class="menu-card__desc">Воздушные подушечки из теста, политые мёдом и посыпанные корицей.</p>
+            <button class="btn btn--add-cart" data-name="Сопапильяс" data-price="350">+ В корзину</button>
           </div>
         </div>
 
@@ -298,6 +321,7 @@
               <span class="menu-card__price">590 &#8381;</span>
             </div>
             <p class="menu-card__desc">Текила, ликёр трипл-сек, свежий сок лайма. На ободке — соль.</p>
+            <button class="btn btn--add-cart" data-name="Маргарита классик" data-price="590">+ В корзину</button>
           </div>
         </div>
 
@@ -311,6 +335,7 @@
               <span class="menu-card__price">320 &#8381;</span>
             </div>
             <p class="menu-card__desc">Прохладный рисовый напиток с корицей и ванилью. Традиционное мексиканское agua fresca.</p>
+            <button class="btn btn--add-cart" data-name="Орчата" data-price="320">+ В корзину</button>
           </div>
         </div>
 
@@ -324,6 +349,7 @@
               <span class="menu-card__price">380 &#8381;</span>
             </div>
             <p class="menu-card__desc">Густой горячий шоколад с корицей и щепоткой чили по рецепту ацтеков.</p>
+            <button class="btn btn--add-cart" data-name="Горячий шоколад" data-price="380">+ В корзину</button>
           </div>
         </div>
 
@@ -349,6 +375,62 @@
         <div class="gallery__item gallery__item--wide">
           <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1000&h=500&fit=crop" alt="Зал ресторана" loading="lazy" />
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= DELIVERY ORDER ======= -->
+  <section class="delivery section" id="delivery">
+    <div class="container">
+      <div class="delivery__grid">
+        <div class="delivery__info">
+          <p class="section__label">Доставка</p>
+          <h2 class="section__title">Закажите<br/>на дом</h2>
+          <p class="delivery__desc">Выберите блюда из меню, нажмите «+ В корзину» и оформите заказ. Доставка по городу — бесплатно от 2000 &#8381;.</p>
+          <div class="delivery__cart" id="deliveryCart">
+            <h3 class="delivery__cart-title">&#128722; Ваша корзина</h3>
+            <div class="delivery__cart-empty" id="cartEmpty">Корзина пуста. Добавьте блюда из меню выше.</div>
+            <div class="delivery__cart-items" id="cartItems"></div>
+            <div class="delivery__cart-footer" id="cartFooter" style="display:none;">
+              <div class="delivery__cart-total">
+                <span>Итого:</span>
+                <strong id="cartTotal">0 &#8381;</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+        <form class="delivery__form" id="deliveryForm">
+          <h3 class="delivery__form-title">Оформление заказа</h3>
+          <div class="form-group">
+            <input type="text" class="form-input" placeholder="Ваше имя" required />
+          </div>
+          <div class="form-group">
+            <input type="tel" class="form-input" placeholder="Телефон" required />
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-input" placeholder="Адрес доставки" required />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <input type="text" class="form-input" placeholder="Подъезд" />
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-input" placeholder="Кв. / офис" />
+            </div>
+          </div>
+          <div class="form-group">
+            <textarea class="form-input form-textarea" placeholder="Комментарий к заказу (необязательно)" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <select class="form-input" required>
+              <option value="" disabled selected>Способ оплаты</option>
+              <option>Наличные курьеру</option>
+              <option>Картой курьеру</option>
+              <option>Онлайн при оформлении</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn--primary btn--full" id="deliverySubmit" disabled>Оформить заказ</button>
+        </form>
       </div>
     </div>
   </section>
@@ -476,8 +558,8 @@
     <div class="modal__backdrop" id="modalBackdrop"></div>
     <div class="modal__content">
       <span class="modal__icon">&#127798;</span>
-      <h3 class="modal__title">Заявка отправлена!</h3>
-      <p class="modal__text">Мы перезвоним вам в течение 15 минут для подтверждения бронирования.</p>
+      <h3 class="modal__title" id="modalTitle">Заявка отправлена!</h3>
+      <p class="modal__text" id="modalText">Мы перезвоним вам в течение 15 минут для подтверждения бронирования.</p>
       <button class="btn btn--primary" id="modalClose">Отлично</button>
     </div>
   </div>

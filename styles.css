@@ -336,17 +336,61 @@ a {
   color: var(--yellow);
 }
 
-/* --- HERO --- */
+/* --- HERO (Reveal Photo) --- */
 .hero {
   position: relative;
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background:
-    url('https://images.unsplash.com/photo-1653176654091-f3e47b7040ff?w=1600&h=1000&fit=crop')
-    center / cover no-repeat;
   overflow: hidden;
+  background: var(--brown-dark);
+}
+
+.hero__reveal {
+  position: absolute;
+  inset: 0;
+  display: flex;
+}
+
+.hero__reveal-left,
+.hero__reveal-right {
+  flex: 1;
+  overflow: hidden;
+}
+
+.hero__reveal-left {
+  clip-path: inset(0 0 0 0);
+  animation: revealLeft 1.6s cubic-bezier(0.77, 0, 0.175, 1) 0.3s both;
+}
+
+.hero__reveal-right {
+  clip-path: inset(0 0 0 0);
+  animation: revealRight 1.6s cubic-bezier(0.77, 0, 0.175, 1) 0.5s both;
+}
+
+.hero__reveal-left img,
+.hero__reveal-right img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  animation: heroZoom 12s ease-in-out infinite alternate;
+}
+
+@keyframes revealLeft {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes revealRight {
+  from { clip-path: inset(0 0 0 100%); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes heroZoom {
+  from { transform: scale(1); }
+  to   { transform: scale(1.08); }
 }
 
 .hero__overlay {
@@ -354,16 +398,25 @@ a {
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(62, 39, 35, 0.65) 0%,
-    rgba(45, 74, 50, 0.55) 100%
+    rgba(62, 39, 35, 0.6) 0%,
+    rgba(45, 74, 50, 0.5) 50%,
+    rgba(62, 39, 35, 0.7) 100%
   );
+  z-index: 1;
 }
 
 .hero__content {
   position: relative;
+  z-index: 2;
   text-align: center;
   color: var(--white);
   max-width: 700px;
+  animation: fadeUp 1s ease 1.2s both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .hero__subtitle {
@@ -403,6 +456,7 @@ a {
 
 .hero__scroll {
   position: absolute;
+  z-index: 2;
   bottom: 40px;
   left: 50%;
   transform: translateX(-50%);
@@ -614,6 +668,34 @@ a {
   line-height: 1.6;
 }
 
+/* Add to cart button */
+.btn--add-cart {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  padding: 8px 20px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  background: var(--green);
+  color: var(--white);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn--add-cart:hover {
+  background: var(--green-dark);
+  transform: translateY(-1px);
+}
+
+.btn--add-cart.added {
+  background: var(--yellow);
+  color: var(--brown-dark);
+}
+
 /* Hide filtered cards */
 .menu-card.hidden {
   display: none;
@@ -650,6 +732,167 @@ a {
 
 .gallery__item--wide {
   grid-column: span 2;
+}
+
+/* --- DELIVERY --- */
+.delivery {
+  background: var(--cream);
+}
+
+.delivery__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+
+.delivery__desc {
+  font-size: 1.05rem;
+  color: var(--text-light);
+  line-height: 1.8;
+  margin-bottom: 24px;
+}
+
+.delivery__cart {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow);
+}
+
+.delivery__cart-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.2rem;
+  color: var(--brown-dark);
+  margin-bottom: 16px;
+}
+
+.delivery__cart-empty {
+  color: var(--text-light);
+  font-size: 0.9rem;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.delivery__cart-items {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--cream-dark);
+  gap: 12px;
+}
+
+.cart-item:last-child {
+  border-bottom: none;
+}
+
+.cart-item__info {
+  flex: 1;
+}
+
+.cart-item__name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--brown-dark);
+}
+
+.cart-item__price {
+  font-size: 0.85rem;
+  color: var(--text-light);
+}
+
+.cart-item__controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cart-item__btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--cream-dark);
+  background: var(--white);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  padding: 0;
+  line-height: 1;
+}
+
+.cart-item__btn:hover {
+  border-color: var(--green);
+  color: var(--green);
+}
+
+.cart-item__qty {
+  font-weight: 600;
+  min-width: 20px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.cart-item__remove {
+  background: none;
+  border: none;
+  color: #ccc;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 4px;
+  transition: var(--transition);
+}
+
+.cart-item__remove:hover {
+  color: #e74c3c;
+}
+
+.delivery__cart-footer {
+  padding-top: 16px;
+  border-top: 2px solid var(--cream-dark);
+  margin-top: 8px;
+}
+
+.delivery__cart-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.1rem;
+}
+
+.delivery__cart-total strong {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.4rem;
+  color: var(--green);
+}
+
+.delivery__form {
+  background: var(--white);
+  padding: 40px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+}
+
+.delivery__form-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.3rem;
+  color: var(--brown-dark);
+  margin-bottom: 24px;
+}
+
+#deliverySubmit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 /* --- ORDER / RESERVATION --- */
@@ -888,6 +1131,7 @@ select.form-input {
   .about__grid { grid-template-columns: 1fr; gap: 40px; }
   .about__img { height: 350px; }
   .order__grid { grid-template-columns: 1fr; gap: 40px; }
+  .delivery__grid { grid-template-columns: 1fr; gap: 40px; }
   .footer__grid { grid-template-columns: 1fr 1fr; }
   .gallery__grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 220px; }
   .gallery__item--tall { grid-row: span 1; }
