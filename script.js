@@ -77,6 +77,30 @@ document.addEventListener('DOMContentLoaded', () => {
   const cartFabBadge = document.getElementById('cartFabBadge');
   const cartFabTotal = document.getElementById('cartFabTotal');
 
+  const cartDrawer = document.getElementById('cartDrawer');
+  const cartDrawerBackdrop = document.getElementById('cartDrawerBackdrop');
+  const cartDrawerClose = document.getElementById('cartDrawerClose');
+  const cartDrawerItems = document.getElementById('cartDrawerItems');
+  const cartDrawerEmpty = document.getElementById('cartDrawerEmpty');
+  const cartDrawerFooter = document.getElementById('cartDrawerFooter');
+  const cartDrawerTotal = document.getElementById('cartDrawerTotal');
+  const cartDrawerCheckout = document.getElementById('cartDrawerCheckout');
+
+  function openCartDrawer() {
+    cartDrawer.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeCartDrawer() {
+    cartDrawer.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  cartFab.addEventListener('click', openCartDrawer);
+  cartDrawerClose.addEventListener('click', closeCartDrawer);
+  cartDrawerBackdrop.addEventListener('click', closeCartDrawer);
+  cartDrawerCheckout.addEventListener('click', closeCartDrawer);
+
   function renderCart() {
     if (cart.length === 0) {
       cartEmptyEl.style.display = 'block';
@@ -84,14 +108,19 @@ document.addEventListener('DOMContentLoaded', () => {
       cartItemsEl.innerHTML = '';
       deliverySubmit.disabled = true;
       cartFab.style.display = 'none';
+      cartDrawerEmpty.style.display = 'block';
+      cartDrawerItems.innerHTML = '';
+      cartDrawerFooter.style.display = 'none';
       return;
     }
     cartEmptyEl.style.display = 'none';
     cartFooterEl.style.display = 'block';
     deliverySubmit.disabled = false;
+    cartDrawerEmpty.style.display = 'none';
+    cartDrawerFooter.style.display = 'block';
 
     let total = 0;
-    cartItemsEl.innerHTML = cart.map((item, i) => {
+    const itemsHTML = cart.map((item, i) => {
       const subtotal = item.price * item.qty;
       total += subtotal;
       return `
@@ -110,7 +139,28 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
     }).join('');
 
+    cartItemsEl.innerHTML = itemsHTML;
+
+    cartDrawerItems.innerHTML = cart.map((item, i) => {
+      const subtotal = item.price * item.qty;
+      return `
+        <div class="cart-drawer-item">
+          <div class="cart-drawer-item__info">
+            <div class="cart-drawer-item__name">${item.name}</div>
+            <div class="cart-drawer-item__price">${item.price} \u20BD × ${item.qty} = ${subtotal} \u20BD</div>
+          </div>
+          <div class="cart-drawer-item__controls">
+            <button class="cart-drawer-item__btn" data-action="minus" data-index="${i}">&minus;</button>
+            <span class="cart-drawer-item__qty">${item.qty}</span>
+            <button class="cart-drawer-item__btn" data-action="plus" data-index="${i}">+</button>
+            <button class="cart-drawer-item__remove" data-action="remove" data-index="${i}">&times;</button>
+          </div>
+        </div>
+      `;
+    }).join('');
+
     cartTotalEl.innerHTML = total + ' \u20BD';
+    cartDrawerTotal.innerHTML = total + ' \u20BD';
     updateCartFab(total);
   }
 

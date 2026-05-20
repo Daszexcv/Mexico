@@ -565,11 +565,33 @@
   </div>
 
   <!-- ======= FIXED CART BUTTON ======= -->
-  <a href="#delivery" class="cart-fab" id="cartFab" style="display:none;">
+  <button class="cart-fab" id="cartFab" style="display:none;">
     <span class="cart-fab__icon">&#128722;</span>
     <span class="cart-fab__badge" id="cartFabBadge">0</span>
     <span class="cart-fab__total" id="cartFabTotal">0 &#8381;</span>
-  </a>
+  </button>
+
+  <!-- ======= CART DRAWER ======= -->
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="cart-drawer__backdrop" id="cartDrawerBackdrop"></div>
+    <div class="cart-drawer__panel">
+      <div class="cart-drawer__header">
+        <h3 class="cart-drawer__title">&#128722; Корзина</h3>
+        <button class="cart-drawer__close" id="cartDrawerClose">&times;</button>
+      </div>
+      <div class="cart-drawer__body" id="cartDrawerBody">
+        <div class="cart-drawer__empty" id="cartDrawerEmpty">Корзина пуста.<br/>Добавьте блюда из меню.</div>
+        <div class="cart-drawer__items" id="cartDrawerItems"></div>
+      </div>
+      <div class="cart-drawer__footer" id="cartDrawerFooter" style="display:none;">
+        <div class="cart-drawer__total">
+          <span>Итого:</span>
+          <strong id="cartDrawerTotal">0 &#8381;</strong>
+        </div>
+        <a href="#delivery" class="btn btn--primary btn--full" id="cartDrawerCheckout">Оформить заказ</a>
+      </div>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
