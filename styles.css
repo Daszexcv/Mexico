@@ -216,6 +216,12 @@ a {
   font-size: 1.5rem;
 }
 
+.logo__svg {
+  height: 36px;
+  width: auto;
+  display: block;
+}
+
 .logo__text {
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 1.5rem;

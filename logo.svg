@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 120" fill="none">
+  <defs>
+    <linearGradient id="hatGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D4A843"/>
+      <stop offset="50%" stop-color="#B8860B"/>
+      <stop offset="100%" stop-color="#8B6914"/>
+    </linearGradient>
+    <linearGradient id="brimGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C49B30"/>
+      <stop offset="100%" stop-color="#8B6914"/>
+    </linearGradient>
+    <linearGradient id="bandGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#3A5A40"/>
+      <stop offset="50%" stop-color="#4A7C59"/>
+      <stop offset="100%" stop-color="#3A5A40"/>
+    </linearGradient>
+    <linearGradient id="pepperGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E85D3A"/>
+      <stop offset="100%" stop-color="#C0392B"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#00000030"/>
+    </filter>
+  </defs>
+
+  <!-- Sombrero Group -->
+  <g transform="translate(16, 6)" filter="url(#shadow)">
+    <!-- Brim - wide curved shape -->
+    <ellipse cx="42" cy="68" rx="42" ry="14" fill="url(#brimGrad)" />
+    <ellipse cx="42" cy="66" rx="40" ry="12" fill="url(#hatGrad)" opacity="0.6"/>
+    
+    <!-- Brim edge decoration -->
+    <path d="M4 68 Q22 78 42 80 Q62 78 80 68" stroke="#D4A843" stroke-width="1.5" fill="none" opacity="0.6"/>
+    
+    <!-- Hat crown -->
+    <path d="M20 68 Q20 30 42 18 Q64 30 64 68" fill="url(#hatGrad)" />
+    
+    <!-- Crown highlight -->
+    <path d="M28 60 Q30 36 42 26 Q48 30 52 40" fill="#E8C84A" opacity="0.3"/>
+    
+    <!-- Hat band - green -->
+    <rect x="18" y="58" width="48" height="8" rx="2" fill="url(#bandGrad)" />
+    
+    <!-- Band decoration - zigzag pattern -->
+    <path d="M22 62 L25 59 L28 62 L31 59 L34 62 L37 59 L40 62 L43 59 L46 62 L49 59 L52 62 L55 59 L58 62 L61 59 L64 62" 
+          stroke="#D4A843" stroke-width="1" fill="none" opacity="0.8"/>
+    
+    <!-- Small chili on the hat band -->
+    <g transform="translate(56, 54) rotate(-30)">
+      <path d="M0 8 Q2 0 4 -2 Q5 0 6 8 Q3 12 0 8Z" fill="url(#pepperGrad)" />
+      <path d="M3 -2 Q4 -6 2 -7 Q5 -5 4 -2" fill="#3A5A40" />
+    </g>
+  </g>
+
+  <!-- Text: Мехико -->
+  <text x="100" y="62" font-family="Georgia, 'Playfair Display', serif" font-size="42" font-weight="700" fill="#2C1810" letter-spacing="1">
+    Мехико
+  </text>
+  
+  <!-- Subtitle -->
+  <text x="100" y="82" font-family="'Inter', Arial, sans-serif" font-size="11" fill="#6B5B4E" letter-spacing="3" text-transform="uppercase">
+    РЕСТОРАН
+  </text>
+
+  <!-- Decorative line under text -->
+  <line x1="100" y1="90" x2="200" y2="90" stroke="#D4A843" stroke-width="1.5" opacity="0.6"/>
+  
+  <!-- Small decorative dots -->
+  <circle cx="100" cy="90" r="2" fill="#3A5A40" opacity="0.7"/>
+  <circle cx="200" cy="90" r="2" fill="#3A5A40" opacity="0.7"/>
+</svg>

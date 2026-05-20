@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 84 80" fill="none">
+  <defs>
+    <linearGradient id="hatGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D4A843"/>
+      <stop offset="50%" stop-color="#B8860B"/>
+      <stop offset="100%" stop-color="#8B6914"/>
+    </linearGradient>
+    <linearGradient id="brimGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C49B30"/>
+      <stop offset="100%" stop-color="#8B6914"/>
+    </linearGradient>
+    <linearGradient id="bandGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#3A5A40"/>
+      <stop offset="50%" stop-color="#4A7C59"/>
+      <stop offset="100%" stop-color="#3A5A40"/>
+    </linearGradient>
+    <linearGradient id="pepperGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E85D3A"/>
+      <stop offset="100%" stop-color="#C0392B"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <!-- Brim -->
+    <ellipse cx="42" cy="62" rx="42" ry="14" fill="url(#brimGrad)" />
+    <ellipse cx="42" cy="60" rx="40" ry="12" fill="url(#hatGrad)" opacity="0.6"/>
+    <path d="M4 62 Q22 72 42 74 Q62 72 80 62" stroke="#D4A843" stroke-width="1.5" fill="none" opacity="0.6"/>
+    <!-- Crown -->
+    <path d="M20 62 Q20 24 42 12 Q64 24 64 62" fill="url(#hatGrad)" />
+    <path d="M28 54 Q30 30 42 20 Q48 24 52 34" fill="#E8C84A" opacity="0.3"/>
+    <!-- Band -->
+    <rect x="18" y="52" width="48" height="8" rx="2" fill="url(#bandGrad)" />
+    <path d="M22 56 L25 53 L28 56 L31 53 L34 56 L37 53 L40 56 L43 53 L46 56 L49 53 L52 56 L55 53 L58 56 L61 53 L64 56" 
+          stroke="#D4A843" stroke-width="1" fill="none" opacity="0.8"/>
+    <!-- Small chili -->
+    <g transform="translate(56, 48) rotate(-30)">
+      <path d="M0 8 Q2 0 4 -2 Q5 0 6 8 Q3 12 0 8Z" fill="url(#pepperGrad)" />
+      <path d="M3 -2 Q4 -6 2 -7 Q5 -5 4 -2" fill="#3A5A40" />
+    </g>
+  </g>
+</svg>
