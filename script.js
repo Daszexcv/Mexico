@@ -67,7 +67,11 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ========== DELIVERY CART ========== */
-  const cart = [];
+  const cart = JSON.parse(localStorage.getItem('mexico_cart') || '[]');
+
+  function saveCart() {
+    localStorage.setItem('mexico_cart', JSON.stringify(cart));
+  }
   const cartItemsEl = document.getElementById('cartItems');
   const cartEmptyEl = document.getElementById('cartEmpty');
   const cartFooterEl = document.getElementById('cartFooter');
@@ -96,7 +100,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.style.overflow = '';
   }
 
-  cartFab.addEventListener('click', openCartDrawer);
+  cartFab.addEventListener('click', () => {
+    window.location.href = 'cart.html';
+  });
   cartDrawerClose.addEventListener('click', closeCartDrawer);
   cartDrawerBackdrop.addEventListener('click', closeCartDrawer);
   cartDrawerCheckout.addEventListener('click', closeCartDrawer);
@@ -182,6 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       cart.push({ name, price: parseInt(price, 10), qty: 1 });
     }
+    saveCart();
     renderCart();
   }
 
@@ -215,6 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (action === 'remove') {
       cart.splice(index, 1);
     }
+    saveCart();
     renderCart();
   });
 
@@ -239,6 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       deliveryForm.reset();
       cart.length = 0;
+      saveCart();
       renderCart();
     });
   }
@@ -293,5 +302,8 @@ document.addEventListener('DOMContentLoaded', () => {
     dateInput.setAttribute('min', today);
     dateInput.setAttribute('value', today);
   }
+
+  /* --- Initial render (load from localStorage) --- */
+  renderCart();
 
 });

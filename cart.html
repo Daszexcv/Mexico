@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Корзина — Мехико</title>
+  <meta name="description" content="Корзина заказа — ресторан Мехико." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ======= HEADER ======= -->
+  <header class="header header--scrolled" id="header">
+    <div class="container header__inner">
+      <a href="index.html" class="logo">
+        <img src="logo-icon.svg" alt="" class="logo__svg" />
+        <span class="logo__text">Мехико</span>
+      </a>
+      <nav class="nav" id="nav">
+        <a href="index.html#menu" class="nav__link">Меню</a>
+        <a href="index.html#delivery" class="nav__link">Доставка</a>
+        <a href="index.html#gallery" class="nav__link">Атмосфера</a>
+        <a href="index.html#contact" class="nav__link">Контакты</a>
+      </nav>
+      <a href="index.html#menu" class="btn btn--header">Вернуться в меню</a>
+    </div>
+  </header>
+
+  <!-- ======= CART PAGE ======= -->
+  <section class="cart-page section">
+    <div class="container">
+      <p class="section__label">Ваш заказ</p>
+      <h2 class="section__title">Корзина</h2>
+
+      <div class="cart-page__content">
+
+        <!-- Cart items -->
+        <div class="cart-page__items-wrap">
+          <div class="cart-page__empty" id="cartPageEmpty">
+            Корзина пуста.<br/>
+            <a href="index.html#menu" class="cart-page__empty-link">Перейти в меню</a>
+          </div>
+          <div class="cart-page__items" id="cartPageItems"></div>
+        </div>
+
+        <!-- Order summary + form -->
+        <div class="cart-page__sidebar" id="cartPageSidebar" style="display:none;">
+          <div class="cart-page__summary">
+            <h3 class="cart-page__summary-title">Итого</h3>
+            <div class="cart-page__summary-row">
+              <span>Блюда:</span>
+              <strong id="cartPageSubtotal">0 &#8381;</strong>
+            </div>
+            <div class="cart-page__summary-row">
+              <span>Доставка:</span>
+              <span id="cartPageDeliveryFee">Бесплатно</span>
+            </div>
+            <div class="cart-page__summary-row cart-page__summary-row--total">
+              <span>К оплате:</span>
+              <strong id="cartPageTotal">0 &#8381;</strong>
+            </div>
+          </div>
+
+          <form class="cart-page__form" id="cartPageForm">
+            <h3 class="cart-page__form-title">Оформление доставки</h3>
+            <div class="form-group">
+              <input type="text" class="form-input" placeholder="Ваше имя" required />
+            </div>
+            <div class="form-group">
+              <input type="tel" class="form-input" placeholder="Телефон" required />
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-input" placeholder="Адрес доставки" required />
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <input type="text" class="form-input" placeholder="Подъезд" />
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-input" placeholder="Кв. / офис" />
+              </div>
+            </div>
+            <div class="form-group">
+              <textarea class="form-input form-textarea" placeholder="Комментарий к заказу (необязательно)" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+              <select class="form-input" required>
+                <option value="" disabled selected>Способ оплаты</option>
+                <option>Наличные курьеру</option>
+                <option>Картой курьеру</option>
+                <option>Онлайн при оформлении</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn--primary btn--full" id="cartPageSubmit">Оформить заказ</button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= ORDER SUCCESS MODAL ======= -->
+  <div class="modal" id="modal">
+    <div class="modal__backdrop" id="modalBackdrop"></div>
+    <div class="modal__content">
+      <span class="modal__icon">&#127798;</span>
+      <h3 class="modal__title" id="modalTitle">Заказ оформлен!</h3>
+      <p class="modal__text" id="modalText">Ваш заказ принят. Курьер свяжется с вами для подтверждения доставки.</p>
+      <button class="btn btn--primary" id="modalClose">Отлично</button>
+    </div>
+  </div>
+
+  <script src="cart.js"></script>
+</body>
+</html>
