@@ -1114,6 +1114,62 @@ select.form-input {
   line-height: 1.7;
 }
 
+/* --- FIXED CART FAB --- */
+.cart-fab {
+  position: fixed;
+  bottom: 28px;
+  left: 28px;
+  z-index: 1500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--green);
+  color: var(--white);
+  padding: 14px 22px;
+  border-radius: 50px;
+  box-shadow: 0 6px 28px rgba(58, 90, 64, 0.35);
+  cursor: pointer;
+  text-decoration: none;
+  transition: var(--transition);
+  animation: fabBounce 0.4s ease both;
+}
+
+.cart-fab:hover {
+  background: var(--green-dark);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 32px rgba(58, 90, 64, 0.45);
+}
+
+.cart-fab__icon {
+  font-size: 1.4rem;
+}
+
+.cart-fab__badge {
+  background: var(--yellow);
+  color: var(--brown-dark);
+  font-size: 0.75rem;
+  font-weight: 700;
+  min-width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px;
+}
+
+.cart-fab__total {
+  font-weight: 700;
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+@keyframes fabBounce {
+  0%   { transform: scale(0) translateY(20px); opacity: 0; }
+  60%  { transform: scale(1.1) translateY(-4px); opacity: 1; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
 /* --- ANIMATIONS --- */
 .fade-in {
   opacity: 0;

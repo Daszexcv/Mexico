@@ -73,6 +73,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const cartFooterEl = document.getElementById('cartFooter');
   const cartTotalEl = document.getElementById('cartTotal');
   const deliverySubmit = document.getElementById('deliverySubmit');
+  const cartFab = document.getElementById('cartFab');
+  const cartFabBadge = document.getElementById('cartFabBadge');
+  const cartFabTotal = document.getElementById('cartFabTotal');
 
   function renderCart() {
     if (cart.length === 0) {
@@ -80,6 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
       cartFooterEl.style.display = 'none';
       cartItemsEl.innerHTML = '';
       deliverySubmit.disabled = true;
+      cartFab.style.display = 'none';
       return;
     }
     cartEmptyEl.style.display = 'none';
@@ -107,6 +111,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }).join('');
 
     cartTotalEl.innerHTML = total + ' \u20BD';
+    updateCartFab(total);
+  }
+
+  function updateCartFab(total) {
+    const count = cart.reduce((s, item) => s + item.qty, 0);
+    if (count > 0) {
+      cartFab.style.display = 'flex';
+      cartFabBadge.textContent = count;
+      cartFabTotal.innerHTML = (total !== undefined ? total : cart.reduce((s, item) => s + item.price * item.qty, 0)) + ' \u20BD';
+    } else {
+      cartFab.style.display = 'none';
+    }
   }
 
   function addToCart(name, price) {
