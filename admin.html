@@ -634,7 +634,8 @@
       <div class="toolbar__info" id="toolbarInfo">Загрузка...</div>
       <div class="toolbar__btns">
         <button class="btn-action btn-action--secondary" id="btnAddItem">+ Добавить блюдо</button>
-        <button class="btn-action btn-action--primary" id="btnSave">&#128190; Сохранить изменения</button>
+        <button class="btn-action btn-action--primary" id="btnSave">&#128190; Сохранить и опубликовать</button>
+        <button class="btn-action btn-action--outline" id="btnDownload">&#128229; Скачать файл меню</button>
         <button class="btn-action btn-action--outline" id="btnReset">Сбросить к начальным</button>
       </div>
     </div>
@@ -966,8 +967,42 @@
     /* --- SAVE --- */
     document.getElementById('btnSave').addEventListener('click', function() {
       localStorage.setItem(STORAGE_KEY_MENU, JSON.stringify(menuItems));
-      showToast('Меню сохранено! Изменения отобразятся на сайте.');
+      showToast('Меню сохранено! Изменения видны на сайте (в этом браузере). Для публикации на всех устройствах — скачайте файл.');
     });
+
+    /* --- DOWNLOAD menu-data.js --- */
+    document.getElementById('btnDownload').addEventListener('click', function() {
+      var content = generateMenuDataJS(menuItems);
+      var blob = new Blob([content], { type: 'application/javascript' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'menu-data.js';
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('Файл menu-data.js скачан! Загрузите его на GitHub для публикации.');
+    });
+
+    function generateMenuDataJS(items) {
+      var lines = [];
+      lines.push('/* ============================================================');
+      lines.push('   ДАННЫЕ МЕНЮ — Ресторан «Мехико»');
+      lines.push('   ============================================================');
+      lines.push('   Этот файл содержит все блюда меню.');
+      lines.push('   Редактировать через Админ-панель: admin.html');
+      lines.push('   ============================================================ */');
+      lines.push('');
+      lines.push('var MENU_ITEMS = ' + JSON.stringify(items, null, 2) + ';');
+      lines.push('');
+      lines.push('/* Названия категорий */');
+      lines.push('var MENU_CATEGORIES = {');
+      lines.push('  appetizers: "Закуски",');
+      lines.push('  main: "Основные",');
+      lines.push('  drinks: "Напитки"');
+      lines.push('};');
+      lines.push('');
+      return lines.join('\n');
+    }
 
     /* --- RESET --- */
     document.getElementById('btnReset').addEventListener('click', function() {
