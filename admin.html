@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Админ-панель — Мехико</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ============================================================
+       ADMIN PANEL STYLES
+       ============================================================ */
+    :root {
+      --brown-dark: #3E2723;
+      --brown-medium: #5C3D2E;
+      --brown-light: #8B5E3C;
+      --green-dark: #3A5A40;
+      --green-medium: #588157;
+      --green-light: #A3B18A;
+      --yellow-dark: #DAA520;
+      --yellow-medium: #F4C430;
+      --yellow-light: #FFEAA7;
+      --cream: #FFF8F0;
+      --cream-dark: #F5EDE0;
+      --danger: #c0392b;
+      --danger-light: #e74c3c;
+      --radius: 12px;
+      --shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--cream);
+      color: var(--brown-dark);
+      min-height: 100vh;
+    }
+
+    /* === LOGIN SCREEN === */
+    .login-screen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+      background: linear-gradient(135deg, var(--brown-dark) 0%, var(--brown-medium) 50%, var(--green-dark) 100%);
+    }
+
+    .login-box {
+      background: white;
+      border-radius: var(--radius);
+      padding: 48px 40px;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+
+    .login-box__logo {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--brown-dark);
+      margin-bottom: 8px;
+    }
+
+    .login-box__subtitle {
+      font-size: 0.95rem;
+      color: #888;
+      margin-bottom: 32px;
+    }
+
+    .login-box__input {
+      width: 100%;
+      padding: 14px 18px;
+      border: 2px solid var(--cream-dark);
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+      margin-bottom: 16px;
+    }
+
+    .login-box__input:focus {
+      border-color: var(--green-medium);
+    }
+
+    .login-box__btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--green-dark);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .login-box__btn:hover { background: var(--green-medium); }
+
+    .login-box__error {
+      color: var(--danger);
+      font-size: 0.85rem;
+      margin-top: 12px;
+      display: none;
+    }
+
+    /* === ADMIN LAYOUT === */
+    .admin { display: none; }
+    .admin.active { display: block; }
+
+    .admin-header {
+      background: var(--brown-dark);
+      color: white;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .admin-header__title {
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .admin-header__actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .admin-header__link {
+      color: var(--yellow-light);
+      text-decoration: none;
+      font-size: 0.85rem;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+
+    .admin-header__link:hover { opacity: 1; }
+
+    .btn-logout {
+      padding: 8px 16px;
+      background: rgba(255,255,255,0.15);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 6px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-logout:hover { background: rgba(255,255,255,0.25); }
+
+    /* === TOOLBAR === */
+    .toolbar {
+      background: white;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      border-bottom: 1px solid var(--cream-dark);
+      position: sticky;
+      top: 56px;
+      z-index: 99;
+    }
+
+    .toolbar__info {
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .toolbar__btns {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn-action {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
+    .btn-action--primary {
+      background: var(--green-dark);
+      color: white;
+    }
+    .btn-action--primary:hover { background: var(--green-medium); }
+
+    .btn-action--secondary {
+      background: var(--yellow-medium);
+      color: var(--brown-dark);
+    }
+    .btn-action--secondary:hover { background: var(--yellow-dark); }
+
+    .btn-action--danger {
+      background: var(--danger);
+      color: white;
+    }
+    .btn-action--danger:hover { background: var(--danger-light); }
+
+    .btn-action--outline {
+      background: transparent;
+      color: var(--brown-medium);
+      border: 2px solid var(--cream-dark);
+    }
+    .btn-action--outline:hover {
+      border-color: var(--brown-light);
+      background: var(--cream-dark);
+    }
+
+    /* === MENU ITEMS LIST === */
+    .items-container {
+      padding: 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .category-group {
+      margin-bottom: 32px;
+    }
+
+    .category-group__title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--brown-medium);
+      margin-bottom: 16px;
+      padding: 8px 0;
+      border-bottom: 2px solid var(--yellow-medium);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .category-group__count {
+      font-size: 0.8rem;
+      background: var(--cream-dark);
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-weight: 500;
+    }
+
+    .item-card {
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      margin-bottom: 16px;
+      display: grid;
+      grid-template-columns: 120px 1fr auto;
+      gap: 20px;
+      align-items: start;
+      transition: box-shadow 0.2s;
+    }
+
+    .item-card:hover {
+      box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+    }
+
+    .item-card__preview {
+      width: 120px;
+      height: 90px;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .item-card__preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .item-card__preview-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 600;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .item-card__preview:hover .item-card__preview-overlay {
+      opacity: 1;
+    }
+
+    .item-card__fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .item-card__field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .item-card__field--full {
+      grid-column: 1 / -1;
+    }
+
+    .item-card__label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .item-card__input {
+      padding: 10px 12px;
+      border: 2px solid var(--cream-dark);
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+
+    .item-card__input:focus {
+      border-color: var(--green-medium);
+    }
+
+    .item-card__input--textarea {
+      resize: vertical;
+      min-height: 60px;
+    }
+
+    .item-card__actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-top: 4px;
+    }
+
+    .item-card__btn {
+      padding: 8px 14px;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+      white-space: nowrap;
+    }
+
+    .item-card__btn--delete {
+      background: #fdecea;
+      color: var(--danger);
+    }
+    .item-card__btn--delete:hover {
+      background: var(--danger);
+      color: white;
+    }
+
+    .item-card__btn--badge {
+      background: var(--yellow-light);
+      color: var(--brown-dark);
+      font-size: 0.75rem;
+    }
+
+    .item-card__btn--badge.active {
+      background: var(--yellow-medium);
+    }
+
+    /* === PHOTO MODAL === */
+    .photo-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(0,0,0,0.6);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .photo-modal.active {
+      display: flex;
+    }
+
+    .photo-modal__box {
+      background: white;
+      border-radius: var(--radius);
+      padding: 32px;
+      max-width: 500px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .photo-modal__title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .photo-modal__preview {
+      width: 100%;
+      height: 200px;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      background: var(--cream-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .photo-modal__preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .photo-modal__preview-empty {
+      color: #aaa;
+      font-size: 0.9rem;
+    }
+
+    .photo-modal__label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #666;
+    }
+
+    .photo-modal__input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 2px solid var(--cream-dark);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      outline: none;
+      margin-bottom: 16px;
+    }
+
+    .photo-modal__input:focus {
+      border-color: var(--green-medium);
+    }
+
+    .photo-modal__hint {
+      font-size: 0.78rem;
+      color: #999;
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    .photo-modal__btns {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    /* === TOAST === */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--green-dark);
+      color: white;
+      padding: 14px 24px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      z-index: 2000;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+
+    .toast.active {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast--error {
+      background: var(--danger);
+    }
+
+    /* === PASSWORD CHANGE === */
+    .pwd-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(0,0,0,0.6);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .pwd-modal.active { display: flex; }
+
+    .pwd-modal__box {
+      background: white;
+      border-radius: var(--radius);
+      padding: 32px;
+      max-width: 420px;
+      width: 100%;
+    }
+
+    .pwd-modal__title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .pwd-modal__field {
+      margin-bottom: 16px;
+    }
+
+    .pwd-modal__field label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #666;
+      margin-bottom: 6px;
+    }
+
+    .pwd-modal__field input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 2px solid var(--cream-dark);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      outline: none;
+    }
+
+    .pwd-modal__field input:focus {
+      border-color: var(--green-medium);
+    }
+
+    .pwd-modal__btns {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 24px;
+    }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 768px) {
+      .item-card {
+        grid-template-columns: 1fr;
+      }
+
+      .item-card__preview {
+        width: 100%;
+        height: 150px;
+      }
+
+      .item-card__fields {
+        grid-template-columns: 1fr;
+      }
+
+      .item-card__actions {
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+
+      .admin-header {
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .toolbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .login-box {
+        padding: 32px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ======= LOGIN SCREEN ======= -->
+  <div class="login-screen" id="loginScreen">
+    <div class="login-box">
+      <div class="login-box__logo">&#127798; Мехико</div>
+      <div class="login-box__subtitle">Панель управления меню</div>
+      <form id="loginForm">
+        <input type="password" class="login-box__input" id="loginPassword" placeholder="Введите пароль" autocomplete="current-password" />
+        <button type="submit" class="login-box__btn">Войти</button>
+      </form>
+      <div class="login-box__error" id="loginError">Неверный пароль. Попробуйте ещё раз.</div>
+    </div>
+  </div>
+
+  <!-- ======= ADMIN PANEL ======= -->
+  <div class="admin" id="adminPanel">
+
+    <!-- Header -->
+    <div class="admin-header">
+      <div class="admin-header__title">&#127798; Админ-панель — Мехико</div>
+      <div class="admin-header__actions">
+        <a href="index.html" class="admin-header__link" target="_blank">&#8599; Открыть сайт</a>
+        <button class="btn-logout" id="btnChangePwd">Сменить пароль</button>
+        <button class="btn-logout" id="btnLogout">Выйти</button>
+      </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <div class="toolbar__info" id="toolbarInfo">Загрузка...</div>
+      <div class="toolbar__btns">
+        <button class="btn-action btn-action--secondary" id="btnAddItem">+ Добавить блюдо</button>
+        <button class="btn-action btn-action--primary" id="btnSave">&#128190; Сохранить изменения</button>
+        <button class="btn-action btn-action--outline" id="btnReset">Сбросить к начальным</button>
+      </div>
+    </div>
+
+    <!-- Menu Items -->
+    <div class="items-container" id="itemsContainer"></div>
+  </div>
+
+  <!-- ======= PHOTO MODAL ======= -->
+  <div class="photo-modal" id="photoModal">
+    <div class="photo-modal__box">
+      <div class="photo-modal__title">Изменить фотографию</div>
+      <div class="photo-modal__preview" id="photoPreview">
+        <span class="photo-modal__preview-empty">Нет фото</span>
+      </div>
+      <div class="photo-modal__label">Ссылка на фотографию (URL):</div>
+      <input type="url" class="photo-modal__input" id="photoUrlInput" placeholder="https://example.com/photo.jpg" />
+      <div class="photo-modal__hint">
+        Вставьте ссылку на фотографию из интернета.<br/>
+        Рекомендуемый размер: 500×400 пикселей.<br/>
+        Можете загрузить фото на <a href="https://imgbb.com/" target="_blank">imgbb.com</a> и вставить ссылку сюда.
+      </div>
+      <div class="photo-modal__btns">
+        <button class="btn-action btn-action--outline" id="photoCancel">Отмена</button>
+        <button class="btn-action btn-action--primary" id="photoSave">Применить</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======= PASSWORD CHANGE MODAL ======= -->
+  <div class="pwd-modal" id="pwdModal">
+    <div class="pwd-modal__box">
+      <div class="pwd-modal__title">Сменить пароль</div>
+      <div class="pwd-modal__field">
+        <label>Текущий пароль</label>
+        <input type="password" id="pwdOld" />
+      </div>
+      <div class="pwd-modal__field">
+        <label>Новый пароль</label>
+        <input type="password" id="pwdNew" />
+      </div>
+      <div class="pwd-modal__field">
+        <label>Повторите новый пароль</label>
+        <input type="password" id="pwdNew2" />
+      </div>
+      <div class="pwd-modal__btns">
+        <button class="btn-action btn-action--outline" id="pwdCancel">Отмена</button>
+        <button class="btn-action btn-action--primary" id="pwdSaveBtn">Сохранить</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======= TOAST ======= -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Load default menu data -->
+  <script src="menu-data.js"></script>
+
+  <script>
+  /* ============================================================
+     ADMIN PANEL — LOGIC
+     ============================================================ */
+  (function() {
+    'use strict';
+
+    var DEFAULT_PASSWORD_HASH = '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918'; // "admin"
+    var STORAGE_KEY_MENU = 'mexico_menu_items';
+    var STORAGE_KEY_PWD = 'mexico_admin_pwd';
+
+    /* --- Simple SHA-256 hash --- */
+    async function sha256(message) {
+      var msgBuffer = new TextEncoder().encode(message);
+      var hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+      var hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
+    }
+
+    function getPasswordHash() {
+      return localStorage.getItem(STORAGE_KEY_PWD) || DEFAULT_PASSWORD_HASH;
+    }
+
+    /* --- Toast notifications --- */
+    function showToast(msg, isError) {
+      var toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.className = 'toast' + (isError ? ' toast--error' : '');
+      setTimeout(function() { toast.classList.add('active'); }, 10);
+      setTimeout(function() { toast.classList.remove('active'); }, 3000);
+    }
+
+    /* --- Elements --- */
+    var loginScreen = document.getElementById('loginScreen');
+    var adminPanel = document.getElementById('adminPanel');
+    var loginForm = document.getElementById('loginForm');
+    var loginPassword = document.getElementById('loginPassword');
+    var loginError = document.getElementById('loginError');
+    var itemsContainer = document.getElementById('itemsContainer');
+    var toolbarInfo = document.getElementById('toolbarInfo');
+
+    /* --- Menu data --- */
+    var menuItems = [];
+
+    function loadMenuItems() {
+      var stored = localStorage.getItem(STORAGE_KEY_MENU);
+      if (stored) {
+        try { menuItems = JSON.parse(stored); } catch(e) { menuItems = JSON.parse(JSON.stringify(MENU_ITEMS)); }
+      } else {
+        menuItems = JSON.parse(JSON.stringify(MENU_ITEMS));
+      }
+    }
+
+    function getNextId() {
+      var max = 0;
+      menuItems.forEach(function(item) { if (item.id > max) max = item.id; });
+      return max + 1;
+    }
+
+    /* --- LOGIN --- */
+    loginForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      var pwd = loginPassword.value;
+      if (!pwd) return;
+      var hash = await sha256(pwd);
+      if (hash === getPasswordHash()) {
+        loginScreen.style.display = 'none';
+        adminPanel.classList.add('active');
+        sessionStorage.setItem('mexico_admin_auth', '1');
+        loadMenuItems();
+        renderItems();
+      } else {
+        loginError.style.display = 'block';
+        loginPassword.value = '';
+        loginPassword.focus();
+      }
+    });
+
+    /* Auto-login if session active */
+    if (sessionStorage.getItem('mexico_admin_auth') === '1') {
+      loginScreen.style.display = 'none';
+      adminPanel.classList.add('active');
+      loadMenuItems();
+      setTimeout(renderItems, 50);
+    }
+
+    /* --- LOGOUT --- */
+    document.getElementById('btnLogout').addEventListener('click', function() {
+      sessionStorage.removeItem('mexico_admin_auth');
+      location.reload();
+    });
+
+    /* --- RENDER ITEMS --- */
+    function renderItems() {
+      var categories = { appetizers: [], main: [], drinks: [] };
+      var catNames = { appetizers: 'Закуски', main: 'Основные блюда', drinks: 'Напитки' };
+
+      menuItems.forEach(function(item, idx) {
+        var cat = item.category || 'main';
+        if (!categories[cat]) categories[cat] = [];
+        categories[cat].push({ item: item, idx: idx });
+      });
+
+      var html = '';
+      var keys = ['appetizers', 'main', 'drinks'];
+      keys.forEach(function(key) {
+        var items = categories[key];
+        if (!items || items.length === 0) return;
+
+        html += '<div class="category-group">';
+        html += '<div class="category-group__title">' + catNames[key] + ' <span class="category-group__count">' + items.length + '</span></div>';
+
+        items.forEach(function(obj) {
+          var item = obj.item;
+          var idx = obj.idx;
+          html += renderItemCard(item, idx);
+        });
+
+        html += '</div>';
+      });
+
+      itemsContainer.innerHTML = html;
+      toolbarInfo.textContent = 'Всего блюд: ' + menuItems.length;
+      bindItemEvents();
+    }
+
+    function renderItemCard(item, idx) {
+      var badges = ['', 'Хит', 'Новинка'];
+      return '<div class="item-card" data-index="' + idx + '">' +
+        '<div class="item-card__preview" data-index="' + idx + '" title="Нажмите, чтобы изменить фото">' +
+          '<img src="' + item.image + '" alt="' + item.name + '" onerror="this.src=\'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%2290%22><rect fill=%22%23f0ebe0%22 width=%22120%22 height=%2290%22/><text x=%2260%22 y=%2250%22 text-anchor=%22middle%22 fill=%22%23aaa%22 font-size=%2212%22>Нет фото</text></svg>\'" />' +
+          '<div class="item-card__preview-overlay">&#128247; Изменить фото</div>' +
+        '</div>' +
+        '<div class="item-card__fields">' +
+          '<div class="item-card__field">' +
+            '<span class="item-card__label">Название</span>' +
+            '<input class="item-card__input" data-field="name" data-index="' + idx + '" value="' + escHtml(item.name) + '" />' +
+          '</div>' +
+          '<div class="item-card__field">' +
+            '<span class="item-card__label">Цена (&#8381;)</span>' +
+            '<input class="item-card__input" type="number" data-field="price" data-index="' + idx + '" value="' + item.price + '" min="0" />' +
+          '</div>' +
+          '<div class="item-card__field">' +
+            '<span class="item-card__label">Вес / объём</span>' +
+            '<input class="item-card__input" data-field="weight" data-index="' + idx + '" value="' + escHtml(item.weight) + '" placeholder="напр. 350 г или 400 мл" />' +
+          '</div>' +
+          '<div class="item-card__field">' +
+            '<span class="item-card__label">Категория</span>' +
+            '<select class="item-card__input" data-field="category" data-index="' + idx + '">' +
+              '<option value="appetizers"' + (item.category === 'appetizers' ? ' selected' : '') + '>Закуски</option>' +
+              '<option value="main"' + (item.category === 'main' ? ' selected' : '') + '>Основные</option>' +
+              '<option value="drinks"' + (item.category === 'drinks' ? ' selected' : '') + '>Напитки</option>' +
+            '</select>' +
+          '</div>' +
+          '<div class="item-card__field item-card__field--full">' +
+            '<span class="item-card__label">Описание</span>' +
+            '<textarea class="item-card__input item-card__input--textarea" data-field="description" data-index="' + idx + '">' + escHtml(item.description) + '</textarea>' +
+          '</div>' +
+          '<div class="item-card__field">' +
+            '<span class="item-card__label">Метка</span>' +
+            '<select class="item-card__input" data-field="badge" data-index="' + idx + '">' +
+              '<option value=""' + (item.badge === '' || !item.badge ? ' selected' : '') + '>Без метки</option>' +
+              '<option value="Хит"' + (item.badge === 'Хит' ? ' selected' : '') + '>Хит</option>' +
+              '<option value="Новинка"' + (item.badge === 'Новинка' ? ' selected' : '') + '>Новинка</option>' +
+            '</select>' +
+          '</div>' +
+        '</div>' +
+        '<div class="item-card__actions">' +
+          '<button class="item-card__btn item-card__btn--delete" data-delete="' + idx + '" title="Удалить блюдо">&#128465; Удалить</button>' +
+        '</div>' +
+      '</div>';
+    }
+
+    function escHtml(str) {
+      if (!str) return '';
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    /* --- BIND EVENTS ON ITEMS --- */
+    function bindItemEvents() {
+      /* Input changes */
+      itemsContainer.querySelectorAll('.item-card__input').forEach(function(input) {
+        input.addEventListener('input', function() {
+          var idx = parseInt(this.dataset.index);
+          var field = this.dataset.field;
+          if (field === 'price') {
+            menuItems[idx][field] = parseInt(this.value) || 0;
+          } else {
+            menuItems[idx][field] = this.value;
+          }
+        });
+      });
+
+      /* Delete buttons */
+      itemsContainer.querySelectorAll('[data-delete]').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var idx = parseInt(this.dataset.delete);
+          var name = menuItems[idx].name;
+          if (confirm('Удалить «' + name + '» из меню?')) {
+            menuItems.splice(idx, 1);
+            renderItems();
+            showToast('«' + name + '» удалено');
+          }
+        });
+      });
+
+      /* Photo change click */
+      itemsContainer.querySelectorAll('.item-card__preview').forEach(function(preview) {
+        preview.addEventListener('click', function() {
+          openPhotoModal(parseInt(this.dataset.index));
+        });
+      });
+    }
+
+    /* --- PHOTO MODAL --- */
+    var photoModal = document.getElementById('photoModal');
+    var photoUrlInput = document.getElementById('photoUrlInput');
+    var photoPreview = document.getElementById('photoPreview');
+    var currentPhotoIdx = -1;
+
+    function openPhotoModal(idx) {
+      currentPhotoIdx = idx;
+      var item = menuItems[idx];
+      photoUrlInput.value = item.image || '';
+      updatePhotoPreview(item.image);
+      photoModal.classList.add('active');
+    }
+
+    function updatePhotoPreview(url) {
+      if (url) {
+        photoPreview.innerHTML = '<img src="' + url + '" onerror="this.parentNode.innerHTML=\'<span class=photo-modal__preview-empty>Не удалось загрузить</span>\'" />';
+      } else {
+        photoPreview.innerHTML = '<span class="photo-modal__preview-empty">Нет фото</span>';
+      }
+    }
+
+    photoUrlInput.addEventListener('input', function() {
+      updatePhotoPreview(this.value);
+    });
+
+    document.getElementById('photoSave').addEventListener('click', function() {
+      if (currentPhotoIdx >= 0) {
+        menuItems[currentPhotoIdx].image = photoUrlInput.value;
+        renderItems();
+        showToast('Фото обновлено');
+      }
+      photoModal.classList.remove('active');
+    });
+
+    document.getElementById('photoCancel').addEventListener('click', function() {
+      photoModal.classList.remove('active');
+    });
+
+    /* --- ADD ITEM --- */
+    document.getElementById('btnAddItem').addEventListener('click', function() {
+      menuItems.push({
+        id: getNextId(),
+        name: 'Новое блюдо',
+        price: 0,
+        weight: '',
+        description: '',
+        image: '',
+        category: 'main',
+        badge: ''
+      });
+      renderItems();
+      showToast('Новое блюдо добавлено. Заполните данные.');
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    });
+
+    /* --- SAVE --- */
+    document.getElementById('btnSave').addEventListener('click', function() {
+      localStorage.setItem(STORAGE_KEY_MENU, JSON.stringify(menuItems));
+      showToast('Меню сохранено! Изменения отобразятся на сайте.');
+    });
+
+    /* --- RESET --- */
+    document.getElementById('btnReset').addEventListener('click', function() {
+      if (confirm('Сбросить все изменения и вернуть начальное меню?\n\nВсе ваши правки будут потеряны!')) {
+        localStorage.removeItem(STORAGE_KEY_MENU);
+        menuItems = JSON.parse(JSON.stringify(MENU_ITEMS));
+        renderItems();
+        showToast('Меню сброшено к начальным данным');
+      }
+    });
+
+    /* --- PASSWORD CHANGE --- */
+    var pwdModal = document.getElementById('pwdModal');
+
+    document.getElementById('btnChangePwd').addEventListener('click', function() {
+      pwdModal.classList.add('active');
+    });
+
+    document.getElementById('pwdCancel').addEventListener('click', function() {
+      pwdModal.classList.remove('active');
+    });
+
+    document.getElementById('pwdSaveBtn').addEventListener('click', async function() {
+      var oldPwd = document.getElementById('pwdOld').value;
+      var newPwd = document.getElementById('pwdNew').value;
+      var newPwd2 = document.getElementById('pwdNew2').value;
+
+      if (!oldPwd || !newPwd) {
+        showToast('Заполните все поля', true);
+        return;
+      }
+
+      var oldHash = await sha256(oldPwd);
+      if (oldHash !== getPasswordHash()) {
+        showToast('Текущий пароль неверный', true);
+        return;
+      }
+
+      if (newPwd !== newPwd2) {
+        showToast('Новые пароли не совпадают', true);
+        return;
+      }
+
+      if (newPwd.length < 4) {
+        showToast('Пароль должен быть не менее 4 символов', true);
+        return;
+      }
+
+      var newHash = await sha256(newPwd);
+      localStorage.setItem(STORAGE_KEY_PWD, newHash);
+      pwdModal.classList.remove('active');
+      document.getElementById('pwdOld').value = '';
+      document.getElementById('pwdNew').value = '';
+      document.getElementById('pwdNew2').value = '';
+      showToast('Пароль успешно изменён!');
+    });
+
+  })();
+  </script>
+
+</body>
+</html>

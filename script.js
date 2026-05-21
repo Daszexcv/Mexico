@@ -4,6 +4,34 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+  /* --- Load menu data (admin edits override defaults) --- */
+  var menuItems = JSON.parse(localStorage.getItem('mexico_menu_items') || 'null') || MENU_ITEMS;
+
+  /* --- Render menu grid --- */
+  var menuGrid = document.getElementById('menuGrid');
+  function renderMenuGrid() {
+    menuGrid.innerHTML = menuItems.map(function(item) {
+      return '<div class="menu-card" data-category="' + item.category + '">' +
+        '<div class="menu-card__img-wrap">' +
+          '<img src="' + item.image + '" alt="' + item.name + '" class="menu-card__img" loading="lazy" />' +
+          (item.badge ? '<span class="menu-card__badge">' + item.badge + '</span>' : '') +
+        '</div>' +
+        '<div class="menu-card__body">' +
+          '<div class="menu-card__header">' +
+            '<h3 class="menu-card__name">' + item.name + '</h3>' +
+            '<span class="menu-card__price">' + item.price + ' \u20BD</span>' +
+          '</div>' +
+          '<p class="menu-card__desc">' + item.description + ' <span class="menu-card__weight">' + item.weight + '</span></p>' +
+          '<button class="btn btn--add-cart" data-name="' + item.name + '" data-price="' + item.price + '">+ \u0412 \u043A\u043E\u0440\u0437\u0438\u043D\u0443</button>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+    bindAddToCartButtons();
+    bindMenuFilters();
+    bindFadeIn();
+  }
+  renderMenuGrid();
+
   /* --- Header scroll effect --- */
   const header = document.getElementById('header');
   const onScroll = () => {
@@ -32,24 +60,26 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* --- Menu filter --- */
-  const filterBtns = document.querySelectorAll('.menu__filter');
-  const menuCards = document.querySelectorAll('.menu-card');
+  function bindMenuFilters() {
+    const filterBtns = document.querySelectorAll('.menu__filter');
+    const menuCards = document.querySelectorAll('.menu-card');
 
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const filter = btn.dataset.filter;
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
 
-      menuCards.forEach(card => {
-        if (filter === 'all' || card.dataset.category === filter) {
-          card.classList.remove('hidden');
-        } else {
-          card.classList.add('hidden');
-        }
+        menuCards.forEach(card => {
+          if (filter === 'all' || card.dataset.category === filter) {
+            card.classList.remove('hidden');
+          } else {
+            card.classList.add('hidden');
+          }
+        });
       });
     });
-  });
+  }
 
   /* --- Smooth scroll for anchor links --- */
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -192,20 +222,22 @@ document.addEventListener('DOMContentLoaded', () => {
     renderCart();
   }
 
-  document.querySelectorAll('.btn--add-cart').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const name = btn.dataset.name;
-      const price = btn.dataset.price;
-      addToCart(name, price);
+  function bindAddToCartButtons() {
+    document.querySelectorAll('.btn--add-cart').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const name = btn.dataset.name;
+        const price = btn.dataset.price;
+        addToCart(name, price);
 
-      btn.textContent = 'Добавлено!';
-      btn.classList.add('added');
-      setTimeout(() => {
-        btn.textContent = '+ В корзину';
-        btn.classList.remove('added');
-      }, 1200);
+        btn.textContent = 'Добавлено!';
+        btn.classList.add('added');
+        setTimeout(() => {
+          btn.textContent = '+ В корзину';
+          btn.classList.remove('added');
+        }, 1200);
+      });
     });
-  });
+  }
 
   document.addEventListener('click', (e) => {
     const btn = e.target.closest('[data-action]');
@@ -302,25 +334,28 @@ document.addEventListener('DOMContentLoaded', () => {
   if (modalBackdrop) modalBackdrop.addEventListener('click', closeModal);
 
   /* --- Fade-in on scroll (Intersection Observer) --- */
-  const fadeEls = document.querySelectorAll(
-    '.menu-card, .about__img-wrap, .about__text, .gallery__item, .order__info, .order__form, .delivery__info, .delivery__form, .stat'
-  );
+  function bindFadeIn() {
+    const fadeEls = document.querySelectorAll(
+      '.menu-card:not(.fade-in), .about__img-wrap:not(.fade-in), .about__text:not(.fade-in), .gallery__item:not(.fade-in), .order__info:not(.fade-in), .order__form:not(.fade-in), .delivery__info:not(.fade-in), .delivery__form:not(.fade-in), .stat:not(.fade-in)'
+    );
 
-  fadeEls.forEach(el => el.classList.add('fade-in'));
+    fadeEls.forEach(el => el.classList.add('fade-in'));
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.15 }
-  );
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            obs.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
 
-  fadeEls.forEach(el => observer.observe(el));
+    fadeEls.forEach(el => obs.observe(el));
+  }
+  bindFadeIn();
 
   /* --- Set min date for reservation to today --- */
   const dateInput = orderForm ? orderForm.querySelector('input[type="date"]') : null;

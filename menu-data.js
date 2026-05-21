@@ -1,0 +1,146 @@
+/* ============================================================
+   ДАННЫЕ МЕНЮ — Ресторан «Мехико»
+   ============================================================
+   Этот файл содержит все блюда меню.
+   Редактировать через Админ-панель: admin.html
+   ============================================================ */
+
+var MENU_ITEMS = [
+  {
+    id: 1,
+    name: "Гуакамоле",
+    price: 490,
+    weight: "220 г",
+    description: "Свежее авокадо, лайм, кинза, томаты, халапеньо. Подаётся с кукурузными чипсами.",
+    image: "https://images.unsplash.com/photo-1615870216519-2f9fa575fa5c?w=500&h=400&fit=crop",
+    category: "appetizers",
+    badge: "Хит"
+  },
+  {
+    id: 2,
+    name: "Начос Супремос",
+    price: 590,
+    weight: "350 г",
+    description: "Кукурузные чипсы с расплавленным сыром чеддер, халапеньо, сметаной и сальсой.",
+    image: "https://images.unsplash.com/photo-1582169296194-e4d644c48063?w=500&h=400&fit=crop",
+    category: "appetizers",
+    badge: ""
+  },
+  {
+    id: 3,
+    name: "Кесадилья",
+    price: 520,
+    weight: "280 г",
+    description: "Тортилья с тянущимся сыром оахака, грибами и эпазоте. Подаётся с гуакамоле.",
+    image: "https://images.unsplash.com/photo-1599974579688-8dbdd335c77f?w=500&h=400&fit=crop",
+    category: "appetizers",
+    badge: ""
+  },
+  {
+    id: 4,
+    name: "Сальса трио",
+    price: 350,
+    weight: "250 г",
+    description: "Три вида сальсы — верде, роха и пико-де-гальо — с домашними тортилья-чипсами.",
+    image: "https://images.unsplash.com/photo-1607098665874-fd193397547b?w=500&h=400&fit=crop",
+    category: "appetizers",
+    badge: ""
+  },
+  {
+    id: 5,
+    name: "Тако аль пастор",
+    price: 650,
+    weight: "320 г",
+    description: "Маринованная свинина с ананасом, кинзой и луком на кукурузной тортилье. 3 шт.",
+    image: "https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=500&h=400&fit=crop",
+    category: "main",
+    badge: "Хит"
+  },
+  {
+    id: 6,
+    name: "Буррито карне асада",
+    price: 790,
+    weight: "450 г",
+    description: "Большая тортилья с говядиной на гриле, рисом, чёрной фасолью, сыром и сальсой.",
+    image: "https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=500&h=400&fit=crop",
+    category: "main",
+    badge: ""
+  },
+  {
+    id: 7,
+    name: "Энчилады верде",
+    price: 720,
+    weight: "380 г",
+    description: "Тортильи с курицей, залитые зелёным соусом из томатильо, со сметаной и сыром.",
+    image: "https://images.unsplash.com/photo-1534352956036-cd81e27dd615?w=500&h=400&fit=crop",
+    category: "main",
+    badge: ""
+  },
+  {
+    id: 8,
+    name: "Фахитас с курицей",
+    price: 850,
+    weight: "420 г",
+    description: "Шипящая курица с перцем и луком на раскалённой сковороде. С тортильями и соусами.",
+    image: "https://images.unsplash.com/photo-1599789197514-47270cd526b4?w=500&h=400&fit=crop",
+    category: "main",
+    badge: ""
+  },
+  {
+    id: 9,
+    name: "Чили кон карне",
+    price: 680,
+    weight: "350 г",
+    description: "Густое рагу из говядины с фасолью, томатами и перцем чили. Подаётся с рисом.",
+    image: "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=500&h=400&fit=crop",
+    category: "main",
+    badge: ""
+  },
+  {
+    id: 10,
+    name: "Тамале",
+    price: 550,
+    weight: "300 г",
+    description: "Кукурузное тесто с начинкой из свинины в листьях кукурузы. Традиционный рецепт. 2 шт.",
+    image: "https://images.unsplash.com/photo-1625398407796-82650a8c135f?w=500&h=400&fit=crop",
+    category: "main",
+    badge: "Новинка"
+  },
+  {
+    id: 11,
+    name: "Лимонад с халапеньо",
+    price: 350,
+    weight: "400 мл",
+    description: "Освежающий лимонад с мятой и лёгкой остринкой халапеньо. Идеально к острым блюдам.",
+    image: "https://images.unsplash.com/photo-1546171753-97d7676e4602?w=500&h=400&fit=crop",
+    category: "drinks",
+    badge: "Хит"
+  },
+  {
+    id: 12,
+    name: "Орчата",
+    price: 320,
+    weight: "400 мл",
+    description: "Прохладный рисовый напиток с корицей и ванилью. Традиционное мексиканское agua fresca.",
+    image: "https://images.unsplash.com/photo-1560508179-b2c9a3f8e92b?w=500&h=400&fit=crop",
+    category: "drinks",
+    badge: ""
+  },
+  {
+    id: 13,
+    name: "Горячий шоколад",
+    price: 380,
+    weight: "300 мл",
+    description: "Густой горячий шоколад с корицей и щепоткой чили по рецепту ацтеков.",
+    image: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=500&h=400&fit=crop",
+    category: "drinks",
+    badge: ""
+  }
+];
+
+/* Названия категорий */
+var MENU_CATEGORIES = {
+  appetizers: "Закуски",
+  main: "Основные",
+  drinks: "Напитки"
+};
