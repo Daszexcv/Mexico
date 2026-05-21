@@ -5,7 +5,13 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   /* --- Load menu data (admin edits override defaults) --- */
-  var menuItems = JSON.parse(localStorage.getItem('mexico_menu_items') || 'null') || MENU_ITEMS;
+  var menuItems;
+  try {
+    var stored = JSON.parse(localStorage.getItem('mexico_menu_items') || 'null');
+    menuItems = (Array.isArray(stored) && stored.length > 0) ? stored : MENU_ITEMS;
+  } catch(e) {
+    menuItems = MENU_ITEMS;
+  }
 
   /* --- Render menu grid --- */
   var menuGrid = document.getElementById('menuGrid');
