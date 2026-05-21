@@ -10,8 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
   /* --- Render menu grid --- */
   var menuGrid = document.getElementById('menuGrid');
   function renderMenuGrid() {
-    menuGrid.innerHTML = menuItems.map(function(item) {
-      return '<div class="menu-card" data-category="' + item.category + '">' +
+    menuGrid.innerHTML = menuItems.map(function(item, idx) {
+      return '<div class="menu-card" data-category="' + item.category + '" data-item-index="' + idx + '">' +
         '<div class="menu-card__img-wrap">' +
           '<img src="' + item.image + '" alt="' + item.name + '" class="menu-card__img" loading="lazy" />' +
           (item.badge ? '<span class="menu-card__badge">' + item.badge + '</span>' : '') +
@@ -19,9 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
         '<div class="menu-card__body">' +
           '<div class="menu-card__header">' +
             '<h3 class="menu-card__name">' + item.name + '</h3>' +
-            '<span class="menu-card__price">' + item.price + ' \u20BD</span>' +
           '</div>' +
           '<p class="menu-card__desc">' + item.description + ' <span class="menu-card__weight">' + item.weight + '</span></p>' +
+          '<span class="menu-card__price">' + item.price + ' \u20BD</span>' +
           '<button class="btn btn--add-cart" data-name="' + item.name + '" data-price="' + item.price + '">+ \u0412 \u043A\u043E\u0440\u0437\u0438\u043D\u0443</button>' +
         '</div>' +
       '</div>';
@@ -29,8 +29,66 @@ document.addEventListener('DOMContentLoaded', () => {
     bindAddToCartButtons();
     bindMenuFilters();
     bindFadeIn();
+    bindCardClick();
   }
   renderMenuGrid();
+
+  /* --- Dish detail modal --- */
+  var dishModalBackdrop = document.createElement('div');
+  dishModalBackdrop.className = 'dish-modal-backdrop';
+  dishModalBackdrop.innerHTML = '<div class="dish-modal" style="position:relative;"></div>';
+  document.body.appendChild(dishModalBackdrop);
+  var dishModal = dishModalBackdrop.querySelector('.dish-modal');
+
+  dishModalBackdrop.addEventListener('click', function(e) {
+    if (e.target === dishModalBackdrop) closeDishModal();
+  });
+
+  function closeDishModal() {
+    dishModalBackdrop.classList.remove('active');
+  }
+
+  function openDishModal(item) {
+    var ingredients = item.ingredients || [];
+    dishModal.innerHTML =
+      '<button class="dish-modal__close" onclick="this.closest(\'.dish-modal-backdrop\').classList.remove(\'active\')">&times;</button>' +
+      '<img class="dish-modal__img" src="' + item.image + '" alt="' + item.name + '" />' +
+      '<div class="dish-modal__content">' +
+        '<div class="dish-modal__top">' +
+          '<h3 class="dish-modal__name">' + item.name + '</h3>' +
+          '<span class="dish-modal__price">' + item.price + ' \u20BD</span>' +
+        '</div>' +
+        '<div class="dish-modal__weight">' + item.weight + '</div>' +
+        '<p class="dish-modal__desc">' + item.description + '</p>' +
+        (ingredients.length > 0 ?
+          '<div class="dish-modal__section-title">\u0418\u043D\u0433\u0440\u0435\u0434\u0438\u0435\u043D\u0442\u044B</div>' +
+          '<div class="dish-modal__ingredients">' +
+            ingredients.map(function(ing) { return '<span class="dish-modal__ingredient">' + ing + '</span>'; }).join('') +
+          '</div>' : '') +
+        '<div class="dish-modal__actions">' +
+          '<button class="btn btn--primary btn--full btn--add-cart" data-name="' + item.name + '" data-price="' + item.price + '">+ \u0412 \u043A\u043E\u0440\u0437\u0438\u043D\u0443</button>' +
+        '</div>' +
+      '</div>';
+    dishModalBackdrop.classList.add('active');
+
+    var modalCartBtn = dishModal.querySelector('.btn--add-cart');
+    if (modalCartBtn) {
+      modalCartBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        addToCart(item.name, item.price);
+      });
+    }
+  }
+
+  function bindCardClick() {
+    document.querySelectorAll('.menu-card').forEach(function(card) {
+      card.addEventListener('click', function(e) {
+        if (e.target.closest('.btn--add-cart')) return;
+        var idx = parseInt(card.dataset.itemIndex);
+        if (!isNaN(idx) && menuItems[idx]) openDishModal(menuItems[idx]);
+      });
+    });
+  }
 
   /* --- Header scroll effect --- */
   const header = document.getElementById('header');
