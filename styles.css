@@ -678,12 +678,11 @@ a {
 }
 
 .menu-card__weight {
-  display: inline-block;
-  margin-top: 4px;
-  font-size: 0.78rem;
-  font-weight: 500;
+  display: block;
+  margin-top: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
   color: var(--green-medium);
-  opacity: 0.85;
 }
 
 /* Add to cart button */

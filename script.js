@@ -20,7 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
           '<div class="menu-card__header">' +
             '<h3 class="menu-card__name">' + item.name + '</h3>' +
           '</div>' +
-          '<p class="menu-card__desc">' + item.description + ' <span class="menu-card__weight">' + item.weight + '</span></p>' +
+          '<p class="menu-card__desc">' + item.description + '</p>' +
+          '<span class="menu-card__weight">' + item.weight + '</span>' +
           '<span class="menu-card__price">' + item.price + ' \u20BD</span>' +
           '<button class="btn btn--add-cart" data-name="' + item.name + '" data-price="' + item.price + '">+ \u0412 \u043A\u043E\u0440\u0437\u0438\u043D\u0443</button>' +
         '</div>' +
