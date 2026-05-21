@@ -674,6 +674,15 @@ a {
   line-height: 1.6;
 }
 
+.menu-card__weight {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--green-medium);
+  opacity: 0.85;
+}
+
 /* Add to cart button */
 .btn--add-cart {
   display: inline-flex;
